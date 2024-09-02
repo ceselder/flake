@@ -1,8 +1,18 @@
 { inputs, system, config, pkgs, ... }:
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ 
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager 
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      celeste = import ./home.nix;
+    };
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -75,6 +85,7 @@
 
   environment.systemPackages = with pkgs; [
     inputs.zen-browser.packages."${system}".default
+    home-manager
     bibata-cursors
     discord
     docker
