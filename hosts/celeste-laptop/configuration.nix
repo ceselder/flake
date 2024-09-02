@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ inputs, system, config, pkgs, ... }:
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -74,6 +74,7 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    inputs.zen-browser.packages."${system}".default
     bibata-cursors
     discord
     docker
