@@ -14,6 +14,10 @@
     };
   };
 
+  services.gvfs.enable = true; #this makes it so usb drives mount
+  services.udisks2.enable = true; #this makes it so usb drives mount
+
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -81,41 +85,6 @@
     nerdfonts
     roboto-mono
     font-awesome
-  ];
-
-  environment.systemPackages = with pkgs; [
-    inputs.zen-browser.packages."${system}".default
-    home-manager
-    bibata-cursors
-    discord
-    docker
-    llvm
-    clang
-    python3
-    nodejs
-    vscode
-    swiProlog
-    git
-    firefox
-    chromium
-    unzip
-    qbittorrent
-    gnome.nautilus
-    obsidian  
-    stremio
-    waybar
-    mako
-    pavucontrol
-    xorg.xeyes
-    kitty
-    rofi-wayland
-    grim
-    slurp
-    vlc
-    wl-clipboard
-    wlsunset
-    toybox
-    swaybg
   ];
 
   system.stateVersion = "24.05";

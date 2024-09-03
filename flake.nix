@@ -6,7 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager?ref=release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -19,15 +19,16 @@
       nixosConfigurations.celeste-laptop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; system = "x86_64-linux"; };
-        modules = [ ./hosts/celeste-laptop/configuration.nix ];
-      }; 
-
-      homeConfigurations."celeste-laptop" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-
-        modules = [ ./home.nix ];
+        modules = [ 
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.celeste = import ./hosts/celeste-laptop/home.nix;
+          }
+          ./hosts/celeste-laptop/configuration.nix 
+          
+        ];
       };
-    }
-    ;
+  };
 }
-
