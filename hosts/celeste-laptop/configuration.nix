@@ -8,6 +8,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home-manager = {
+    backupFileExtension = "hmbackup";
     extraSpecialArgs = { inherit inputs; };
     users = {
       celeste = import ./home.nix;
@@ -20,6 +21,24 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    syntaxHighlighting.enable = true;
+
+    shellAliases = {
+      rebuild = "sudo nixos-rebuild switch --flake /home/celeste/flake#celeste-laptop";
+    };
+
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" ];
+      theme = "alanpeabody";
+    };
+  };
+
+  users.users.celeste.shell = pkgs.zsh;
 
   networking.hostName = "celeste-laptop";
 
@@ -40,9 +59,6 @@
     LC_TELEPHONE = "nl_BE.UTF-8";
     LC_TIME = "nl_BE.UTF-8";
   };
-
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.gdm.enable = true;
 
   services.xserver.xkb = {
     layout = "us";
@@ -77,15 +93,26 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    nerdfonts
-    roboto-mono
-    font-awesome
-  ];
+
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [ 
+      inconsolata
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      liberation_ttf
+      nerdfonts
+      roboto-mono
+      font-awesome
+    ];
+
+    fontconfig = {
+      defaultFonts = {
+        monospace = [ "Inconsolata" ];
+      };
+    };
+  };
 
   system.stateVersion = "24.05";
 }

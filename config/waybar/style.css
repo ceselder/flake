@@ -1,0 +1,191 @@
+* {
+    border: none;
+    border-radius: 2px;
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: "Roboto Mono Medium", Helvetica, Arial, sans-serif;
+    /* Recommended font sizes: 720p: ~14px, 1080p: ~18px */
+    font-size: 16px;
+}
+
+window#waybar {
+    /*background: transparent;*/
+    background-color: transparent; /*swap background color en color en dan ist ook super pretty*/
+    border-bottom: 0px solid #ff8597;
+    transition-property: background-color;
+    transition-duration: .5s;
+    border-radius: 0;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+
+#workspaces  {
+    color: #253237;
+    background-color: #FFB6C1;
+    border-radius: 1.5rem;
+    font-weight: 600;
+}
+
+#workspaces button {
+    padding: 0 0.6em;
+    background-color: transparent;
+    color: #253237;
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    border-radius: 1.5rem;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    background: rgba(35, 7, 48, 0.15);
+    box-shadow: inset 0 -3px #ff8597;
+}
+
+#workspaces button.urgent {
+    background-color: #253237;
+}
+
+#mode {
+    background-color: #253237;
+    border-bottom: 3px solid #ff8597;
+}
+
+#workspaces button.active {
+    background-color: #ff8597;
+    border-radius: 0 0 0 0;
+    color: #253237;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+#workspaces button.active:first-child {
+    background-color: #ff8597;
+    border-radius: 10rem 0 0 10rem;
+    color: #253237;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+#workspaces button.active:last-child {
+    background-color: #ff8597;
+    border-radius: 0 10rem 10rem 0;
+    color: #253237;
+}
+
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#custom-spotify,
+.studytime-unlocked,
+#custom-hass_bureaulamp,
+#custom-hass_wolkje,
+#mpd {
+    background-color: #FFB6C1;
+    padding: 8px 20px;
+    margin: 0.5rem 0.25rem;
+    margin-top: 0rem;
+    margin-bottom: 0.0rem;
+    border-radius: 1.5rem;
+    color: #230730;
+    font-weight: 600;
+}
+
+
+#window {
+    background-color: #ff8597;
+    padding: 8px 16px;
+    margin: 0.5rem 0.25rem;
+    margin-top: 0rem;
+    margin-bottom: 0.0rem;
+    border-radius: 1.5rem;
+    color: #230730;
+    font-weight: 600;
+}
+
+#workspaces {
+    margin: 0 4px;
+}
+
+#clock {
+}
+
+#battery {
+}
+
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+#cpu {
+}
+
+#memory {
+}
+
+#backlight {
+}
+
+#network {
+}
+
+#network.disconnected {
+}
+
+#pulseaudio {
+}
+
+#pulseaudio.muted {
+}
+
+#custom-media {
+    min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+}
+
+#custom-media.custom-vlc {
+}
+
+#studytime.locked {
+}
+
+#studytime.unlocked {
+}
+
+#temperature {
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#tray {
+}
+
+#idle_inhibitor {
+    background-color: #2d3436;
+}
+
+#idle_inhibitor.activated {
+    background-color: #ecf0f1;
+    color: #2d3436;
+}

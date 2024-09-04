@@ -6,6 +6,26 @@
   home.username = "celeste";
   home.homeDirectory = "/home/celeste";
 
+  home.file = {
+    ".config/kitty/kitty.conf" = {
+        source = ../../config/kitty/kitty.conf; 
+        recursive = true;
+    };".config/hypr/hyprland.conf" = {
+        source = ../../config/hypr/hyprland.conf; 
+        recursive = true;
+    };
+
+    ".config/waybar/config" = {
+        source = ../../config/waybar/config; 
+        recursive = true;
+    };
+
+    ".config/waybar/style.css" = {
+        source = ../../config/waybar/style.css; 
+        recursive = true;
+    };
+  };
+
 
   home.packages = with pkgs; [
     # temp
@@ -33,6 +53,7 @@
     gnome.nautilus
     pavucontrol
     vlc
+    lxqt.lxqt-policykit
     
     # hyprland/wayland stuff
     mako
