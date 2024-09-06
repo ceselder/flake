@@ -29,7 +29,10 @@
 
   home.packages = with pkgs; [
     # temp
+    hdrop
     bibata-cursors
+    turbovnc
+    gimp
 
     #general apps
     kdePackages.dolphin

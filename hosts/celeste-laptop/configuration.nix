@@ -15,12 +15,50 @@
     };
   };
 
+  services.getty.autologinUser = "celeste";
+  services.greetd = {
+    enable = true;
+    settings = rec {
+      initial_session = {
+        command = "Hyprland";
+        user = "celeste";
+      };
+      default_session = initial_session;
+    };
+  };
+
   services.gvfs.enable = true; #this makes it so usb drives mount
   services.udisks2.enable = true; #this makes it so usb drives mount
 
+  boot = {
+    initrd.kernelModules = [ "amdgpu" ]; #needed for boot splash
+    loader = {
+       systemd-boot.enable = true;
+       efi.canTouchEfiVariables = true;
+     };
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+    plymouth = {
+      logo = ../../img/cat_boot.png;
+      enable = true;
+      theme = "breeze";
+    };
+
+    # Enable "Silent Boot"
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "loglevel=3"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+    ];
+
+    # It's still possible to open the bootloader list by pressing any key
+    loader.timeout = 0;
+  };
 
   programs.zsh = {
     enable = true;
@@ -28,7 +66,8 @@
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake /home/celeste/flake#celeste-laptop";
+      rebuild = "sudo nixos-rebuild switch --flake /home/celeste/flake#celeste-laptop; hyprctl reload";
+      update = "pushd /home/celeste/flake; sudo nix flake update; popd";
     };
 
     ohMyZsh = {
@@ -107,11 +146,6 @@
       font-awesome
     ];
 
-    fontconfig = {
-      defaultFonts = {
-        monospace = [ "Inconsolata" ];
-      };
-    };
   };
 
   system.stateVersion = "24.05";
