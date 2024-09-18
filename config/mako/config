@@ -1,0 +1,12 @@
+border-size=2
+on-notify=exec mpv /home/celeste/flake/sound/notif.mp3
+#background-color=#230730
+#text-color=#FFB6C1
+#border-color=#FFB6C1
+background-color=#FFB6C1
+text-color=#230730
+border-color=#230730
+anchor=bottom-right
+margin=10
+outer-margin=50, 0, 10
+default-timeout=5000

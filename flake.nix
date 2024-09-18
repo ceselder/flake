@@ -4,6 +4,7 @@
   inputs = {
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
+    plymouth-gif-theme.url = "github:toodeluna/plymouth-gif-theme";
 
     home-manager = {
       url = "github:nix-community/home-manager?ref=release-24.05";

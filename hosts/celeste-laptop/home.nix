@@ -2,7 +2,6 @@
 
 {
 
-
   home.username = "celeste";
   home.homeDirectory = "/home/celeste";
 
@@ -10,7 +9,9 @@
     ".config/kitty/kitty.conf" = {
         source = ../../config/kitty/kitty.conf; 
         recursive = true;
-    };".config/hypr/hyprland.conf" = {
+    };
+    
+    ".config/hypr/hyprland.conf" = {
         source = ../../config/hypr/hyprland.conf; 
         recursive = true;
     };
@@ -24,15 +25,39 @@
         source = ../../config/waybar/style.css; 
         recursive = true;
     };
+
+    ".config/mako/config" = {
+        source = ../../config/mako/config; 
+        recursive = true;
+    };
   };
 
+  services.kdeconnect = {
+    enable = true;
+    indicator = true;
+  };
 
   home.packages = with pkgs; [
     # temp
+    libsForQt5.kdeconnect-kde
+    typescript
     hdrop
     bibata-cursors
-    turbovnc
     gimp
+    psmisc
+    hardinfo
+    puddletag
+    ollama
+    koboldcpp
+    openssl
+    clinfo
+    direnv
+    nix-direnv
+    prisma-engines
+    nodePackages.prisma
+    cargo
+    mlocate
+    playerctl
 
     #general apps
     kdePackages.dolphin
@@ -49,13 +74,15 @@
     llvm
     clang
     python3
-    nodejs
+    #nodejs_22
+    nodejs_20
     git
     unzip
     qbittorrent
     gnome.nautilus
     pavucontrol
     vlc
+    clipgrab
     lxqt.lxqt-policykit
     
     # hyprland/wayland stuff
@@ -64,13 +91,14 @@
     waybar
     grim
     slurp
-    wl-clipboard
+    wl-clipboard   
     wlsunset
     swaybg
   ];
 
   home.sessionVariables = {
-    EDITOR = "nano";
+    EDITOR = "nano"; # :3
+    BROWSER = "zen-browser";
   };
 
   home.file = {
