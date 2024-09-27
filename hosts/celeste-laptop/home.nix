@@ -39,6 +39,17 @@
 
   home.packages = with pkgs; [
     # temp
+    cmake
+libreoffice
+    davinci-resolve
+    swiProlog
+    libgudev
+    libusb
+    udev
+    libudev-zero
+    libudev0-shim
+    gnumake
+    yarn
     libsForQt5.kdeconnect-kde
     typescript
     hdrop

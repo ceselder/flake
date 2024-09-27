@@ -19,8 +19,11 @@
     networks = {
         Sfeer.psk = "schamphelaere";
         K9B.psk = "Kaaitvaart9";
+        Celestje.psk = "timtamtom";        
     };
   };
+  
+  networking.wireless.userControlled.enable = true;
 
   home-manager = {
     backupFileExtension = "hmbackup";
