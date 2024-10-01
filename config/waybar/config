@@ -1,20 +1,20 @@
 {
     "layer": "bottom", // Waybar at top layer
-    "position": "top", // Waybar position (top|bottom|left|right)
+    "position": "bottom", // Waybar position (top|bottom|left|right)
     "height": 24, // Waybar height (to be removed for auto height)
     "width": 0, // Waybar width
     // Choose the order of the modules
-    "margin-left": 14,
-    "margin-right": 14,
-    "margin-top": 10,
+    "margin-left": 0,
+    "margin-right": 0,
+    "margin-top": 0,
     "margin-bottom": 0,
     "modules-left": ["hyprland/workspaces", "hyprland/mode"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["custom/media", "custom/studytime", "pulseaudio", "custom/hass_bureaulamp", "custom/hass_wolkje", "backlight", "memory", "custom/vpn", "temperature", "network", "battery", "clock", "tray"],
+    "modules-right": ["custom/media", "pulseaudio", "backlight", "memory",  "temperature", "network", "battery",  "tray","clock"],
     "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
-        "format": "{name} {icon}",
+        "format": "{name}",
         "format-icons": {
             "1": "",
             "2": "",
@@ -68,8 +68,8 @@
     },
     "backlight": {
         // "device": "acpi_video1",
-        "on-scroll-up": "backlight_control +2",
-	"on-scroll-down": "backlight_control -2",
+        "on-scroll-up": "brightnessctl set 1%+",
+ 	    "on-scroll-down": "brightnessctl set 1%-",
         "format": "{percent}% {icon}",
         "format-icons": ["", ""]
     },
@@ -109,8 +109,8 @@
     "pulseaudio": {
         "scroll-step": 2, // %, can be a float
         "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-bluetooth": "{volume}% ",
+        "format-bluetooth-muted": " ",
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",

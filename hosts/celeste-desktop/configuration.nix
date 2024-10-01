@@ -14,19 +14,6 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-   "electron-27.3.11"
-  ];
-  
-  
-  networking.wireless = {
-    enable = true;
-    networks = {
-        Sfeer.psk = "schamphelaere";
-        K9B.psk = "Kaaitvaart9";
-        Celestje.psk = "timtamtom";        
-    };
-  };
   
   networking.wireless.userControlled.enable = true;
 
@@ -55,13 +42,7 @@
     };
   };
 
-  #prisma envvars needed to make prisma work
-  environment.sessionVariables = { NIXOS_OZONE_WL = 1; 
-                                   PRISMA_QUERY_ENGINE_BINARY ="../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/bin/query-engine";
-                                   PRISMA_QUERY_ENGINE_LIBRARY = "../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/lib/libquery_engine.node";
-                                   PRISMA_SCHEMA_ENGINE_BINARY = "../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/bin/schema-engine" ;
-                                   PRISMA_FMT_BINARY = "../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/bin/prisma-fmt" ;
-                                   PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING = 1; };
+  environment.sessionVariables = { NIXOS_OZONE_WL = 1; };
 
   services.gvfs.enable = true; #this makes it so usb drives mount
   services.udisks2.enable = true; #this makes it so usb drives mount
@@ -74,8 +55,6 @@
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   
   services.blueman.enable = true;
-
-
     hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -91,11 +70,6 @@
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages_5.clr}"
   ];
-  environment.variables = {
-    # As of ROCm 4.5, AMD has disabled OpenCL on Polaris based cards. So this is needed if you have a 500 series card. 
-    ROC_ENABLE_PRE_VEGA = "1";
-  };
-
 
   boot = {
     initrd.kernelModules = [ "amdgpu" ]; #needed for boot splash
@@ -134,7 +108,7 @@
     syntaxHighlighting.enable = true;
 
     shellAliases = {
-      rebuild = "sudo nixos-rebuild switch --flake /home/celeste/flake#celeste-laptop ; 
+      rebuild = "sudo nixos-rebuild switch --flake /home/celeste/flake#celeste-desktop; 
                  hyprctl reload ;
                  makoctl reload";
       update = "pushd /home/celeste/flake; sudo nix flake update; popd";
@@ -151,9 +125,7 @@
 
   users.users.celeste.shell = pkgs.zsh;
 
-  networking.hostName = "celeste-laptop";
-
-  #networking.networkmanager.enable = true;
+  networking.hostName = "celeste-desktop";
 
   time.timeZone = "Europe/Brussels";
 

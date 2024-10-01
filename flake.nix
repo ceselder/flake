@@ -21,14 +21,15 @@
         system = "x86_64-linux";
         specialArgs = { inherit inputs; system = "x86_64-linux"; };
         modules = [ 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.celeste = import ./hosts/celeste-laptop/home.nix;
-          }
           ./hosts/celeste-laptop/configuration.nix 
-          
+        ];
+      };
+
+      nixosConfigurations.celeste-desktop = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; system = "x86_64-linux"; };
+        modules = [ 
+          ./hosts/celeste-desktop/configuration.nix 
         ];
       };
   };
