@@ -17,18 +17,26 @@
   nixpkgs.config.permittedInsecurePackages = [
    "electron-27.3.11"
   ];
+
   
   
-  networking.wireless = {
-    enable = true;
-    networks = {
-        Sfeer.psk = "schamphelaere";
-        K9B.psk = "Kaaitvaart9";
-        Celestje.psk = "timtamtom";        
-    };
-  };
+#  networking.wireless = {
+#    enable = true;
+#    networks = {
+#        Sfeer.psk = "schamphelaere";
+#        K9B.psk = "Kaaitvaart9";
+#        celestje.psk = "timtamtom";        
+#    };
+#  };
   
+  
+  nixpkgs.config.android_sdk.accept_license = true; #kankergoogle
+
   networking.wireless.userControlled.enable = true;
+  
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.guest.enable = true;
+
 
   home-manager = {
 
@@ -55,13 +63,18 @@
     };
   };
 
+
   #prisma envvars needed to make prisma work
   environment.sessionVariables = { NIXOS_OZONE_WL = 1; 
                                    PRISMA_QUERY_ENGINE_BINARY ="../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/bin/query-engine";
                                    PRISMA_QUERY_ENGINE_LIBRARY = "../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/lib/libquery_engine.node";
                                    PRISMA_SCHEMA_ENGINE_BINARY = "../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/bin/schema-engine" ;
                                    PRISMA_FMT_BINARY = "../../../../../nix/store/5s9vyasvg1g65pd2v7m62qyyzrwkj2s3-prisma-engines-5.12.1/bin/prisma-fmt" ;
-                                   PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING = 1; };
+                                   PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING = 1; 
+ 				   RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+
+ 				};
+
 
   services.gvfs.enable = true; #this makes it so usb drives mount
   services.udisks2.enable = true; #this makes it so usb drives mount
@@ -101,15 +114,17 @@
     initrd.kernelModules = [ "amdgpu" ]; #needed for boot splash
     loader = {
        systemd-boot.enable = true;
+       systemd-boot.configurationLimit = 10; #so EFI/boot doesnt fill up
        efi.canTouchEfiVariables = true;
-     };
-
-    plymouth = {
-      #logo = ../../img/cat_boot.png;
-      enable = true;
-      theme = "plymouth-gif-theme";
-      themePackages = [  (inputs.plymouth-gif-theme.packages.x86_64-linux.default.override {logo = ../../img/cat-funny-cat.gif;})  ];
+        
     };
+
+    #plymouth = {
+    #  #logo = ../../img/cat_boot.png;
+    #  enable = true;
+     # theme = "plymouth-gif-theme";
+     # themePackages = [  (inputs.plymouth-gif-theme.packages.x86_64-linux.default.override {logo = ../../img/cat-funny-cat.gif;})  ];
+    #};
 
     # Enable "Silent Boot"
     consoleLogLevel = 0;
@@ -127,6 +142,16 @@
     # It's still possible to open the bootloader list by pressing any key
     loader.timeout = 0;
   };
+ 
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    v4l2loopback
+  ];
+  boot.kernelModules = [ "v4l2loopback" "tun" ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+  '';
+  security.polkit.enable = true;
+#obs
 
   programs.zsh = {
     enable = true;
@@ -138,7 +163,8 @@
                  hyprctl reload ;
                  makoctl reload";
       update = "pushd /home/celeste/flake; sudo nix flake update; popd";
-    };
+      edithm = "sudo nano /home/celeste/flake/hosts/celeste-laptop/home.nix";
+   };
 
     ohMyZsh = {
       enable = true;
@@ -153,7 +179,7 @@
 
   networking.hostName = "celeste-laptop";
 
-  #networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Brussels";
 
@@ -176,6 +202,7 @@
     variant = "";
   };
 
+
   services.printing.enable = true;
 
   hardware.pulseaudio.enable = false;
@@ -190,10 +217,13 @@
   users.users.celeste = {
     isNormalUser = true;
     description = "Celeste De Schamphelaere";
-    extraGroups = [ "networkmanager" "wheel" "docker"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers"];
     packages = with pkgs; [
     ];
   };
+
+
+  users.extraGroups.vboxusers.members = [ "celeste" ];
 
   programs.hyprland = {
     enable = true;
@@ -220,5 +250,5 @@
 
   };
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

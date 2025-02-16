@@ -1,6 +1,12 @@
 { inputs, config, pkgs, ... }:
-
+let
+buildToolsVersion = "33.0.2";
+androidComposition = pkgs.androidenv.composeAndroidPackages {
+    buildToolsVersions = [ buildToolsVersion ];
+}; 
+in
 {
+  programs.zsh.enable = true;
 
   home.username = "celeste";
   home.homeDirectory = "/home/celeste";
@@ -41,31 +47,76 @@
     };
   };
 
+
   services.kdeconnect = {
     enable = true;
     indicator = true;
   };
 
   home.packages = with pkgs; [
+    thonny
+    bind
+    usbutils
+    kdePackages.partitionmanager
+    fusee-launcher
+    anki
+    yt-dlp
+    obs-studio
+    rustc
+    rustfmt
+    cargo
+    lapack    
+    rust-analyzer
+    pomodoro-gtk
+    audacity
+    apktool
+    apksigner
+    androidComposition.androidsdk
+    r2modman
+    steam
+
+
+    libxkbcommon
+    glbinding
+    ocl-icd
+    clinfo
+    firefox
+    python312Packages.manim
+    mesa.opencl
+    mesa
+    thonny
+    chromium
+    wayland
+  
     # temp
-    logseq
+    pulseeffects-legacy
     libsForQt5.kdeconnect-kde
-    ollama
-    koboldcpp
+    wine
+    eid-mw
+    telegram-desktop
+    spotify
+    citrix_workspace    
+    neovim
 
     #general apps
     gimp
     onlyoffice-bin
     libreoffice
     inputs.zen-browser.packages."x86_64-linux".default
+    inputs.openconnect-sso.packages."x86_64-linux".default
     discord
     vscode
     kitty
     obsidian  
     stremio
     caligula
+    xz
     
     # must haves
+    wget
+    gnat    
+    libgcc
+    android-tools
     gnumake
     openssl
     cmake
@@ -78,21 +129,21 @@
     typescript
     mlocate
     brightnessctl
+    unrar
     psmisc #killall enzo
     docker
     llvm
-    clang
     python3
     #nodejs_22
     nodejs_20
     git
     unzip
-    qbittorrent
     gnome.nautilus
     pavucontrol
     vlc
     clipgrab
     lxqt.lxqt-policykit
+    busybox
     
     # hyprland/wayland stuff
     mako
@@ -111,6 +162,11 @@
     BROWSER = "zen-browser";
   };
 
+  home.shellAliases = {
+  sudo = "sudo ";
+  zipalign = "${androidComposition.androidsdk}/libexec/android-sdk/build-tools/${buildToolsVersion}/zipalign";
+  };
+
   home.file = {
 
   };
@@ -118,4 +174,7 @@
   home.stateVersion = "22.11";
 
   programs.home-manager.enable = true;
+
+
+
 }
