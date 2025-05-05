@@ -4,11 +4,11 @@
   inputs = {
     openconnect-sso.url = "github:ThinkChaos/openconnect-sso?ref=fix/nix-flake";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
-    plymouth-gif-theme.url = "github:toodeluna/system";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    plymouth-gif-theme.url = "github:toodeluna/pkgs";
 
     home-manager = {
-      url = "github:nix-community/home-manager?ref=release-24.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

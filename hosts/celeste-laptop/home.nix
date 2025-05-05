@@ -48,12 +48,18 @@ in
   };
 
 
-  services.kdeconnect = {
-    enable = true;
-    indicator = true;
-  };
 
   home.packages = with pkgs; [
+    openboardview
+    kdePackages.okular
+    handbrake
+    ffmpeg
+    v4l-utils
+    mpv
+    guvcview
+    drawio
+    jflap
+    darktable    
     thonny
     bind
     usbutils
@@ -71,17 +77,16 @@ in
     audacity
     apktool
     apksigner
-    androidComposition.androidsdk
     r2modman
-    steam
-
-
+    
+    #python pkgs
+    python312
     libxkbcommon
     glbinding
     ocl-icd
     clinfo
     firefox
-    python312Packages.manim
+    #python312Packages.manim
     mesa.opencl
     mesa
     thonny
@@ -90,12 +95,11 @@ in
   
     # temp
     pulseeffects-legacy
-    libsForQt5.kdeconnect-kde
     wine
     eid-mw
     telegram-desktop
     spotify
-    citrix_workspace    
+    #citrix_workspace    
     neovim
 
     #general apps
@@ -133,12 +137,11 @@ in
     psmisc #killall enzo
     docker
     llvm
-    python3
     #nodejs_22
     nodejs_20
     git
     unzip
-    gnome.nautilus
+    nautilus
     pavucontrol
     vlc
     clipgrab
@@ -171,7 +174,7 @@ in
 
   };
 
-  home.stateVersion = "22.11";
+  home.stateVersion = "25.05";
 
   programs.home-manager.enable = true;
 

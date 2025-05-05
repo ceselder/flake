@@ -29,15 +29,14 @@
 #    };
 #  };
   
+   boot.kernelPackages = pkgs.linuxPackages_latest; 
+
+  nix.settings.download-buffer-size = 524288000;
   
   nixpkgs.config.android_sdk.accept_license = true; #kankergoogle
 
   networking.wireless.userControlled.enable = true;
   
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.guest.enable = true;
-
-
   home-manager = {
 
     useGlobalPkgs = true;
@@ -81,33 +80,32 @@
 
   services.locate.enable = true;
   services.locate.package = pkgs.mlocate;
-  services.locate.localuser = null; #had to to silence annoying debug message just kinda ignore this line
+  #services.locate.localuser = null; #had to to silence annoying debug message just kinda ignore this line
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   
   services.blueman.enable = true;
+  hardware.amdgpu.opencl.enable = true;
 
-
-    hardware.opengl = {
+    hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      rocmPackages_5.clr.icd
-      rocmPackages_5.clr
-      rocmPackages_5.rocminfo
-      rocmPackages_5.rocm-runtime
-    ];
+    enable32Bit = true;
+    #extraPackages = with pkgs; [
+    #  rocmPackages_5.clr.icd
+    #  rocmPackages_5.clr
+    #  rocmPackages_5.rocminfo
+    #  rocmPackages_5.rocm-runtime
+    #];
   };
   # This is necesery because many programs hard-code the path to hip
-  systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages_5.clr}"
-  ];
-  environment.variables = {
+  #systemd.tmpfiles.rules = [
+  #  "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages_5.clr}"
+  #];
+  #environment.variables = {
     # As of ROCm 4.5, AMD has disabled OpenCL on Polaris based cards. So this is needed if you have a 500 series card. 
-    ROC_ENABLE_PRE_VEGA = "1";
-  };
+  #  ROC_ENABLE_PRE_VEGA = "1";
+  #};
 
 
   boot = {
@@ -205,7 +203,7 @@
 
   services.printing.enable = true;
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -240,10 +238,10 @@
     packages = with pkgs; [ 
       inconsolata
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       liberation_ttf
-      nerdfonts
+      pkgs.nerd-fonts.droid-sans-mono      
       roboto-mono
       font-awesome
     ];
